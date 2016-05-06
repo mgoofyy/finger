@@ -11,3 +11,6 @@
 ##### 交叉编译工具arm-linux-android-gcc 
 ##### 同时适用arm + linux平台 交叉编译器请使用arm-linux-gcc等
 
+##开源协议
+####MIT开源协议
+
