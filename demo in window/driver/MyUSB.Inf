@@ -1,0 +1,109 @@
+; MyUSB.Inf - install information file 
+; Originally supplied by Cypress
+; Corporation for use in this example USB driver
+
+[Version]
+Signature="$CHICAGO$"
+;Class=USB
+Class     = SYNO
+ClassGuid = {77989ADF-06DB-4025-92E8-40D902C03B1B}
+provider=%MyUSB%
+;LayoutFile=layout.inf
+DriverVer = 12/12/2007, 6.0.2007.12
+
+
+[ClassInstall32]
+Addreg = SYNOReg
+
+[ClassInstall]
+Addreg = SYNOReg
+
+[SYNOReg]
+HKR, , , 0, %ClassName%
+HKR, , Icon, , -1
+HKR, , NoInstallClass, , 1
+
+[Manufacturer]
+%MyUSB%=MyUSB
+
+[MyUSB]
+ 
+%USB\VID_0451&PID_9005.DeviceDesc%=MyUSBUSB.Dev, USB\VID_0453&PID_9005
+ 
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+MyUSBUSB.Files.Ext = 10,System32\Drivers
+MyUSBUSB.Files.Inf = 10,INF
+MyUSBUSBDEV.Files.Ext = 10,System32\Drivers
+MyUSBUSBDEV.Files.Inf = 10,INF
+
+[MyUSBUSB.Dev]
+CopyFiles=MyUSBUSB.Files.Ext, MyUSBUSB.Files.Inf
+AddReg=MyUSBUSB.AddReg
+
+[MyUSBUSB.Dev.NT]
+CopyFiles=MyUSBUSB.Files.Ext, MyUSBUSB.Files.Inf
+AddReg=MyUSBUSB.AddReg
+
+[MyUSBUSB.Dev.NT.Services]
+Addservice = MyUSBUSB, 0x00000002, MyUSBUSB.AddService
+
+[MyUSBUSB.AddService]
+DisplayName    = %MyUSBUSB.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 2                  ; SERVICE_AUTO_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\MyUSB.sys
+LoadOrderGroup = Base
+
+[MyUSBUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,MyUSB.sys
+
+[MyUSBUSB.Files.Ext]
+MyUSB.sys
+
+[MyUSBUSB.Files.Inf]
+MyUSB.Inf
+
+[MyUSBUSBDEV.Dev]
+CopyFiles=MyUSBUSBDEV.Files.Ext, MyUSBUSBDEV.Files.Inf
+AddReg=MyUSBUSBDEV.AddReg
+
+[MyUSBUSBDEV.Dev.NT]
+CopyFiles=MyUSBUSBDEV.Files.Ext, MyUSBUSBDEV.Files.Inf
+AddReg=MyUSBUSBDEV.AddReg
+
+[MyUSBUSBDEV.Dev.NT.Services]
+Addservice = MyUSBUSBDEV, 0x00000002, MyUSBUSBDEV.AddService
+
+[MyUSBUSBDEV.AddService]
+DisplayName    = %MyUSBUSBDEV.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 2                  ; SERVICE_AUTO_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\MyUSB.sys
+LoadOrderGroup = Base
+
+[MyUSBUSBDEV.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,MyUSB.sys
+
+[MyUSBUSBDEV.Files.Ext]
+MyUSB.sys
+
+[MyUSBUSBDEV.Files.Inf]
+MyUSB.Inf
+
+;---------------------------------------------------------------;
+
+[Strings]
+ClassName        = "Finger Device"
+MyUSB="MyUSB Ltd"
+USB\VID_0451&PID_9005.DeviceDesc="Fingerprint Capturer"
+
+MyUSBUSB.SvcDesc="MyUSB General Purpose USB Driver (MyUSB.sys)"
+MyUSBUSBDEV.SvcDesc="MyUSB General Purpose USB Driver w/ Keil Monitor (MyUSB.sys)"
